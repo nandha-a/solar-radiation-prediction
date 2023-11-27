@@ -30,17 +30,6 @@ class ConfigurationManager:
         return data_ingestion_config
     
 
-class ConfigurationManager:
-    def __init__(
-            self,
-            config_file_path = CONFIG_FILE_PATH,
-            params_filepath = PARAMS_FILE_PATH):
-        
-        self.config = read_yaml(config_file_path)
-        self.params = read_yaml(params_filepath)
-
-        create_directories([self.config.artifacts_root])
-
     def get_data_validation_config(self) -> DataValidationConfig:
         config = self.config.data_validation
 
