@@ -3,6 +3,7 @@ import os
 from solarRadiation.utils.common import create_directories
 from sklearn.preprocessing import StandardScaler
 from solarRadiation.entity import DataTransformationConfig
+from solarRadiation.logging import logger
 
 
 class DataTransformation:
@@ -33,11 +34,13 @@ class DataTransformation:
         x_val = validation.loc[:, high_correlation]
         y_train = train[self.target]
         y_val = validation[self.target]
-
+        
+        logger.info("Data transformation started")
         X_train = self.transformer.fit_transform(x_train)
         X_test = self.transformer.transform(x_test)
         X_val = self.transformer.transform(x_val)
 
+        logger.info("Data transformation completed")
         create_directories([self.config.transformed_data_path])
 
         X_train.dump(os.path.join(self.config.transformed_data_path,'x_train.pkl'))
@@ -45,3 +48,5 @@ class DataTransformation:
         X_val.dump(os.path.join(self.config.transformed_data_path,'x_validation.pkl'))
         y_train.to_pickle(os.path.join(self.config.transformed_data_path,'y_train.pkl'))
         y_val.to_pickle(os.path.join(self.config.transformed_data_path,'y_validation.pkl'))
+        logger.info("Transformed data saved to the transformed data path")
+
