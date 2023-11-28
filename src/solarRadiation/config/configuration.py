@@ -1,7 +1,8 @@
 from solarRadiation.constants import *
 from solarRadiation.utils.common import read_yaml, create_directories
 from solarRadiation.entity import (DataIngestionConfig,
-                                   DataValidationConfig)
+                                   DataValidationConfig,
+                                   DataTransformationConfig)
 
 
 class ConfigurationManager:
@@ -42,3 +43,18 @@ class ConfigurationManager:
         )
 
         return data_validation_config
+    
+    def get_data_transformation_config(self) -> DataTransformationConfig:
+        config = self.config.data_transformation
+
+        create_directories([config.root_dir])
+
+        data_transformation_config = DataTransformationConfig(
+            root_dir= config.root_dir,
+            train_data_path = config.train_data_path,
+            test_data_path= config.test_data_path,
+            validation_data_path=config.validation_data_path,
+            transformed_data_path = config.transformed_data_path
+        )
+
+        return data_transformation_config
