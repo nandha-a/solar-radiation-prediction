@@ -17,6 +17,7 @@ data_transformation:
   test_data_path: artifacts/data_ingestion/test_data.csv
   validation_data_path: artifacts/data_ingestion/validation_data.csv
   transformed_data_path: artifacts/data_transformation/data
+  transformer_path: artifacts/data_transformation/transformer.pkl
 
 model_trainer:
   root_dir: artifacts/model_trainer

@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import pickle
 from solarRadiation.utils.common import create_directories
 from sklearn.preprocessing import StandardScaler
 from solarRadiation.entity import DataTransformationConfig
@@ -48,5 +49,6 @@ class DataTransformation:
         X_val.dump(os.path.join(self.config.transformed_data_path,'x_validation.pkl'))
         y_train.to_pickle(os.path.join(self.config.transformed_data_path,'y_train.pkl'))
         y_val.to_pickle(os.path.join(self.config.transformed_data_path,'y_validation.pkl'))
+        pickle.dump(self.transformer,open(self.config.transformer_path,'wb'))
         logger.info("Transformed data saved to the transformed data path")
 

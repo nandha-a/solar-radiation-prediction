@@ -21,6 +21,7 @@ class DataTransformationConfig:
     test_data_path: str
     validation_data_path: str
     transformed_data_path: Path
+    transformer_path: str
 
 @dataclass(frozen=True)
 class ModelTrainerConfig:

@@ -56,7 +56,8 @@ class ConfigurationManager:
             train_data_path = config.train_data_path,
             test_data_path= config.test_data_path,
             validation_data_path=config.validation_data_path,
-            transformed_data_path = config.transformed_data_path
+            transformed_data_path = config.transformed_data_path,
+            transformer_path = config.transformer_path
         )
 
         return data_transformation_config
