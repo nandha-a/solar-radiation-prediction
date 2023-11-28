@@ -28,3 +28,11 @@ class ModelTrainerConfig:
     feature_path: str
     target_path: str
     model_path: str
+
+@dataclass(frozen=True)
+class ModelEvaluationConfig:
+    root_dir : Path
+    val_feature_path: str
+    val_target_path: str
+    trained_model_path: str
+    metric_file_name: str
