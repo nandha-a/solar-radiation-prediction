@@ -23,3 +23,4 @@ model_trainer:
   feature_path: artifacts/data_transformation/data/x_train.pkl
   target_path: artifacts/data_transformation/data/y_train.pkl
   model_path: artifacts/model_trainer/model.pkl
+

@@ -21,3 +21,10 @@ class DataTransformationConfig:
     test_data_path: str
     validation_data_path: str
     transformed_data_path: Path
+
+@dataclass(frozen=True)
+class ModelTrainerConfig:
+    root_dir : Path
+    feature_path: str
+    target_path: str
+    model_path: str
