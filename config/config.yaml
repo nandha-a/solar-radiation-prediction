@@ -27,7 +27,7 @@ model_trainer:
 
 model_evaluation:
   root_dir: artifacts/model_evaluation
-  val_feature_path: artifacts\data_transformation\data\x_validation.pkl
-  val_target_path: artifacts\data_transformation\data\y_validation.pkl
-  trained_model_path: artifacts\model_trainer\model.pkl
+  val_feature_path: artifacts/data_transformation/data/x_validation.pkl
+  val_target_path: artifacts/data_transformation/data/y_validation.pkl
+  trained_model_path: artifacts/model_trainer/model.pkl
   metric_file_name: artifacts/model_evaluation/metrics.csv
