@@ -1,0 +1,140 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/solarRadiation/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: bb50534b0de3d5af13609b0015d3dc3f
+      size: 1527
+    - path: src/solarRadiation/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 5b87233ef585a1cc37280af8db00b6f0
+      size: 924
+    outs:
+    - path: artifacts/data_ingestion
+      hash: md5
+      md5: e75038c4886e85eeaf7120fa6c17e623.dir
+      size: 20185907
+      nfiles: 4
+  data_validation:
+    cmd: python src/solarRadiation/pipeline/stage_02_data_validation.py
+    deps:
+    - path: artifacts/data_ingestion
+      hash: md5
+      md5: e75038c4886e85eeaf7120fa6c17e623.dir
+      size: 20185907
+      nfiles: 4
+    - path: config/config.yaml
+      hash: md5
+      md5: bb50534b0de3d5af13609b0015d3dc3f
+      size: 1527
+    - path: src/solarRadiation/pipeline/stage_02_data_validation.py
+      hash: md5
+      md5: 6a2e38a3f07d3612184399fa704a4500
+      size: 897
+    outs:
+    - path: artifacts/data_validation/status.txt
+      hash: md5
+      md5: 13be38da41ea758b45448535dffff6d4
+      size: 23
+  data_transformation:
+    cmd: python src/solarRadiation/pipeline/stage_03_data_transformation.py
+    deps:
+    - path: artifacts/data_ingestion/test_data.csv
+      hash: md5
+      md5: 2f172eda1a2260be814801d04e4b0d2b
+      size: 411784
+    - path: artifacts/data_ingestion/train_data.csv
+      hash: md5
+      md5: e614f2203a4e98f01b1275df5f993a4d
+      size: 15609848
+    - path: artifacts/data_ingestion/validation_data.csv
+      hash: md5
+      md5: 29f4c0b4b5c8728dfd66d1882a07ff80
+      size: 387698
+    - path: config/config.yaml
+      hash: md5
+      md5: bb50534b0de3d5af13609b0015d3dc3f
+      size: 1527
+    - path: src/solarRadiation/pipeline/stage_03_data_transformation.py
+      hash: md5
+      md5: cc62941b4bc024c397c1c4695d054502
+      size: 930
+    outs:
+    - path: artifacts/data_transformation/data/x_test.pkl
+      hash: md5
+      md5: 58b97a4e37ff180b799811692f38ca22
+      size: 203428
+    - path: artifacts/data_transformation/data/x_train.pkl
+      hash: md5
+      md5: 9711748c2333f4020c5d77ecc92b0eae
+      size: 7725133
+    - path: artifacts/data_transformation/data/x_validation.pkl
+      hash: md5
+      md5: e4b602232a426190d825bb4aac9cf942
+      size: 194481
+    - path: artifacts/data_transformation/data/y_train.pkl
+      hash: md5
+      md5: f70443f056c90106fb7a87cda779ebd9
+      size: 1600615
+    - path: artifacts/data_transformation/data/y_validation.pkl
+      hash: md5
+      md5: 87372dff1cdc358e5da053eb4c145425
+      size: 40598
+    - path: artifacts/data_transformation/transformer.pkl
+      hash: md5
+      md5: 471d0be1cabb99a33a34dfd821870200
+      size: 659
+  model_trainer:
+    cmd: python src/solarRadiation/pipeline/stage_04_model_trainer.py
+    deps:
+    - path: artifacts/data_transformation/data/x_train.pkl
+      hash: md5
+      md5: 9711748c2333f4020c5d77ecc92b0eae
+      size: 7725133
+    - path: artifacts/data_transformation/data/y_train.pkl
+      hash: md5
+      md5: f70443f056c90106fb7a87cda779ebd9
+      size: 1600615
+    - path: config/config.yaml
+      hash: md5
+      md5: bb50534b0de3d5af13609b0015d3dc3f
+      size: 1527
+    - path: src/solarRadiation/pipeline/stage_04_model_trainer.py
+      hash: md5
+      md5: f43245f3b8f83fe7c8870d1b95bbb616
+      size: 853
+    outs:
+    - path: artifacts/model_trainer/model.pkl
+      hash: md5
+      md5: fbf49e3e048476f53e09a7129a26ba53
+      size: 724518875
+  model_evaluation:
+    cmd: python src/solarRadiation/pipeline/stage_05_model_evaluation.py
+    deps:
+    - path: artifacts/data_transformation/data/x_validation.pkl
+      hash: md5
+      md5: e4b602232a426190d825bb4aac9cf942
+      size: 194481
+    - path: artifacts/data_transformation/data/y_validation.pkl
+      hash: md5
+      md5: 87372dff1cdc358e5da053eb4c145425
+      size: 40598
+    - path: artifacts/model_trainer/model.pkl
+      hash: md5
+      md5: fbf49e3e048476f53e09a7129a26ba53
+      size: 724518875
+    - path: config/config.yaml
+      hash: md5
+      md5: bb50534b0de3d5af13609b0015d3dc3f
+      size: 1527
+    - path: src/solarRadiation/pipeline/stage_05_model_evaluation.py
+      hash: md5
+      md5: 06edcc95ee388b7bb7aca0f6ab24da04
+      size: 889
+    outs:
+    - path: artifacts/model_evaluation/metrics.csv
+      hash: md5
+      md5: 2b48b0d60a5ac682d7748605ea996d3d
+      size: 95

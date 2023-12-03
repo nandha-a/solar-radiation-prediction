@@ -1,0 +1,58 @@
+stages:
+  data_ingestion:
+    cmd: python src/solarRadiation/pipeline/stage_01_data_ingestion.py
+    deps:
+      - src/solarRadiation/pipeline/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion
+
+
+  data_validation:
+    cmd: python src/solarRadiation/pipeline/stage_02_data_validation.py
+    deps: 
+      - src/solarRadiation/pipeline/stage_02_data_validation.py
+      - config/config.yaml
+      - artifacts/data_ingestion
+    outs:
+      - artifacts/data_validation/status.txt
+
+
+  data_transformation:
+    cmd: python src/solarRadiation/pipeline/stage_03_data_transformation.py
+    deps:
+      - src/solarRadiation/pipeline/stage_03_data_transformation.py
+      - config/config.yaml
+      - artifacts/data_ingestion/train_data.csv
+      - artifacts/data_ingestion/test_data.csv
+      - artifacts/data_ingestion/validation_data.csv
+    outs:
+      - artifacts/data_transformation/data/x_train.pkl
+      - artifacts/data_transformation/data/x_test.pkl
+      - artifacts/data_transformation/data/x_validation.pkl
+      - artifacts/data_transformation/data/y_train.pkl
+      - artifacts/data_transformation/data/y_validation.pkl
+      - artifacts/data_transformation/transformer.pkl
+
+
+  model_trainer:
+    cmd: python src/solarRadiation/pipeline/stage_04_model_trainer.py
+    deps:
+      - src/solarRadiation/pipeline/stage_04_model_trainer.py
+      - config/config.yaml
+      - artifacts/data_transformation/data/x_train.pkl
+      - artifacts/data_transformation/data/y_train.pkl
+    outs:
+      - artifacts/model_trainer/model.pkl
+
+
+  model_evaluation:
+    cmd: python src/solarRadiation/pipeline/stage_05_model_evaluation.py
+    deps:
+      - src/solarRadiation/pipeline/stage_05_model_evaluation.py
+      - config/config.yaml
+      - artifacts/data_transformation/data/x_validation.pkl
+      - artifacts/data_transformation/data/y_validation.pkl
+      - artifacts/model_trainer/model.pkl
+    outs:
+      - artifacts/model_evaluation/metrics.csv
